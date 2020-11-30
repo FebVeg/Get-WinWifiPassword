@@ -1,8 +1,10 @@
 from os import popen
 from re import search
+from prettytable import PrettyTable
 
 def wifi_stealer():
     try:
+        table = PrettyTable(['SSID', 'Passwords'])
         job = popen("netsh wlan show profiles").readlines()
         for x in job:
             x = x.strip("\n")
@@ -15,10 +17,12 @@ def wifi_stealer():
                     if "Conten" in a:
                         a = a.partition(": ")
                         a = a[2].strip()
-                        print(f"WIFI NAME: {x}".ljust(60)+f"PASSWORD: {a}")
+                        table.add_row([x, a])
+        table.align = "l"
+        print(table)
     except Exception as Error:
         print(str(Error))
         return
 
 if __name__ == "__main__":
-    wifi_stealer()
+    wifi_stealer() 
